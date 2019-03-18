@@ -10,12 +10,20 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import configparser
+config = configparser.ConfigParser()
+config.read('config.ini')
 
-#prompt for credentials
-username = input("Please enter your username: ")
-password = getpass.getpass('Password:')
-chrome_driver_path = input("Please enter path for your chrome driver[default=/usr/local/bin/chromedriver] : ") or "/usr/local/bin/chromedriver"
 
+if os.path.exists('config.ini'):
+	username = config['default']['user']
+	password = config['default']['passwd']
+else:
+	#prompt for credentials
+	username = input("Please enter your username: ")
+	password = getpass.getpass('Password:')
+
+chrome_driver_path = "/usr/local/bin/chromedriver"
 #build chrome oprions
 chrome_options = Options()
 #chrome_options.add_argument("--headless")#run in headless mode
@@ -40,7 +48,7 @@ try:
 	element_miles_css_path = '#content > div > div > div.container > div.row > div > div > div.evHomeStatus.ng-scope.ng-isolate-scope > div > div.ev-status-container.ng-scope > div.ev-miles-container > div.ev-miles-height > div > div:nth-child(1) > h1'
 	element_charge_completion_time_css_path = '#content > div > div > div.container > div.row > div > div > div.evHomeStatus.ng-scope.ng-isolate-scope > div > div.ev-status-container.ng-scope > div.ev-status-left > div.ev-charge-state > div'
 	element_present = EC.visibility_of_element_located((By.CSS_SELECTOR, element_css_path))
-	print('-=-=-=-=-=-=-= Thanks for waiting! It may take three minutes to retrieve your data. -=-=-=-==-=-=-=')
+	print('**Thanks for waiting! It may take three minutes to retrieve your data.**')
 	WebDriverWait(driver, timeout).until(element_present)
 	print('Current Status : ' + driver.find_elements_by_css_selector(element_charging_status_css_path)[0].text)
 	print('Battery level : ' + driver.find_elements_by_css_selector(element_css_path)[0].text)
