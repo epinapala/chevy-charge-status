@@ -23,11 +23,11 @@ else:
 	username = input("Please enter your username: ")
 	password = getpass.getpass('Password:')
 
-chrome_driver_path = "/usr/local/bin/chromedriver"
 #build chrome oprions
 chrome_options = Options()
+chrome_options.add_argument("--headless")  
 #chrome_options.add_argument("--headless")#run in headless mode
-driver = webdriver.Chrome(executable_path=os.path.abspath(chrome_driver_path),
+driver = webdriver.Chrome(executable_path=os.path.abspath("/usr/local/bin/chromedriver"),
                           options=chrome_options)
 
 driver.get("https://my.chevrolet.com/electric-vehicle")
