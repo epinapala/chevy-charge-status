@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/local/bin/python3
 
 import os
 import getpass
@@ -12,10 +12,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import configparser
 config = configparser.ConfigParser()
-config.read('config.ini')
+config_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),'config.ini')
+config.read(config_path)
 
 
-if os.path.exists('config.ini'):
+
+if os.path.exists(config_path):
 	username = config['default']['user']
 	password = config['default']['passwd']
 else:
